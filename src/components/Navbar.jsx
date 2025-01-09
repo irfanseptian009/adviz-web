@@ -137,7 +137,7 @@ const Navbar = () => {
           : "bg-transparent  shadow-xl text-black"
       } transition-colors duration-300`}
     >
-      <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
+      <div className="w-full flex justify-between items-center max-w-full mx-auto">
         {/* Logo */}
         <motion.button
           whileHover={{ scale: 1.05 }}
