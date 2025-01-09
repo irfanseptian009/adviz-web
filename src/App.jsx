@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router'
 import './App.css'
 import {Navbar,Herro, Hilight, About, OurServices, Testimonial, Blog, ContactUs, Footer} from './components'
 import 'normalize.css';
+// import AnimatedParticles from './components/AnimateParticles';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <div className="">
         <div className="bg-hero-pattern ">
           <Navbar />
+          {/* <AnimatedParticles/> */}
           <Herro />
           <Hilight/>
         </div>
