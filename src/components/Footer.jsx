@@ -1,6 +1,6 @@
 
 import { Facebook, Twitter, Instagram, Linkedin, ArrowRight, MapPin, Phone, Mail } from 'lucide-react';
-import logo from "../assets/adviz_logo.jpeg"
+import logo from "../assets/AdvizLogo.png"
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

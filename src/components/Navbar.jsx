@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "../assets/AdvizFull.png";
 
 const Navbar = () => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+  // const logo = "../assets/AdvizLogo.png"
 
   const navLinks = [
     {
@@ -61,7 +63,7 @@ const Navbar = () => {
   const navVariants = {
     hidden: {
       y: -50,
-      opacity: 0,
+      opacity: 35,
     },
     visible: {
       y: 0,
@@ -131,10 +133,10 @@ const Navbar = () => {
       initial="hidden"
       animate="visible"
       variants={navVariants}
-      className={`w-full flex items-center py-7 fixed top-0 z-20 px-5 lg:px-16${
+      className={`w-full flex items-center py-7 fixed top-0 z-20 px-5 lg:px-16 ${
         scrolled
-        ? "bg-gradient-to-r from-[#2c1a38] via-[#100b32] to-[#d9d9d9] border-2 border-white/20 backdrop-blur-[38px]"
-          : "bg-white backdrop-blur-[16px] text-black"
+        ? " opacity-30 backdrop-blur-[8px] border-2 border-white/20"
+        : " opacity-30 backdrop-blur-[8px]  text-black"
       } transition-colors duration-300`}
     >
       <div className="w-full flex justify-between items-center max-w-full mx-auto">
@@ -154,7 +156,7 @@ const Navbar = () => {
             transition={{ duration: 0.5 }}
             className="text-sm lg:text-xl md:text-base font-extrabold text-[#EC9B4F] cursor-pointer flex"
           >
-            ADVIZ
+            <img src={logo} alt="Adviz Logo" width={100} height={100} />
           </motion.p>
         </motion.button>
 
@@ -173,7 +175,7 @@ const Navbar = () => {
               <motion.div
                 whileHover={{ y: -2 }}
                 className={`${
-                  active === nav.title ? "text-[#EC9B4F]" : "text-bg-[#1A1C43]"
+                  active === nav.title ? "text-[#EC9B4F]" : "text-bg-[#1A1C43] "
                 } hover:text-[#EC9B4F] text-lg font-medium cursor-pointer flex items-center gap-1 transition-colors duration-200`}
                 onClick={() => setActive(nav.title)}
               >
@@ -253,8 +255,9 @@ const Navbar = () => {
                       <motion.div
                         whileHover={{ x: 5 }}
                         className={`font-medium cursor-pointer text-base ${
-                          active === nav.title ? "text-[#EC9B4F]" : "text-gray-400"
+                          active === nav.title ? "text-[#EC9B4F]" : "text-white"
                         } transition-colors duration-200`}
+                        style={{ backgroundColor: "white" }}
                         onClick={() => {
                           if (!nav.dropdownItems) {
                             setToggle(!toggle);
