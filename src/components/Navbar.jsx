@@ -131,10 +131,10 @@ const Navbar = () => {
       initial="hidden"
       animate="visible"
       variants={navVariants}
-      className={`w-full flex items-center py-7 fixed top-0 z-20 px-5 lg:px-16 ${
+      className={`w-full flex items-center py-7 fixed top-0 z-20 px-5 lg:px-16${
         scrolled
-          ? "bg-[#1A1C43]/95 backdrop-blur-sm text-white"
-          : "bg-transparent  shadow-xl text-black"
+        ? "bg-gradient-to-r from-[#2c1a38] via-[#100b32] to-[#d9d9d9] border-2 border-white/20 backdrop-blur-[38px]"
+          : "bg-white backdrop-blur-[16px] text-black"
       } transition-colors duration-300`}
     >
       <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
