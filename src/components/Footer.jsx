@@ -8,16 +8,12 @@ const Footer = () => {
   return (
     <footer className="relative">
       {/* Background with gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1A1C43] to-[#2A2C63]"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#000000] to-[#2A2C63]"></div>
       
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full opacity-10 blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500 rounded-full opacity-10 blur-3xl"></div>
-      </div>
+    
 
       {/* Main Content */}
-      <div className="relative container mx-auto px-6 py-20">
+      <div className="relative container mx-auto px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
           {/* Company Info */}
           <div className="space-y-8">

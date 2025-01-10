@@ -75,7 +75,7 @@ const OurServices = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="w-full py-20 bg-white mt-8"
+      className="w-full py-20 bg-white"
     >
       <div className="container mx-auto px-4">
         {/* Header */}

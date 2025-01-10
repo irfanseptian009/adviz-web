@@ -2,36 +2,37 @@
 
 import { BrowserRouter } from 'react-router'
 import './App.css'
-import {Navbar,Herro, Hilight, About, OurServices, Testimonial, Blog, ContactUs, Footer} from './components'
+import {Navbar,Herro, Hilight, About, OurServices, Testimonial, Blog, ContactUs, Footer, AdvizAnimation, OurTeam} from './components'
 import 'normalize.css';
-// import AnimatedParticles from './components/AnimateParticles';
 
 
 function App() {
   return (
     <BrowserRouter>
       <div className="">
-        <div className="bg-hero-pattern ">
+        <div className="">
           <Navbar />
-          {/* <AnimatedParticles/> */}
           <Herro />
-          <Hilight/>
+        </div> 
+    
+        <Hilight/>
+        <div className='h-screen'>
+          <OurTeam/>
         </div>
-        <div className="mx-40">
-         <About/>
-        </div>
-        <div className="bg-hero-pattern bg-white bg-cover bg-no-repeat bg-center">
-          <OurServices/>
-        </div>
-        
-        <div className="bg-hero-pattern bg-white bg-cover bg-no-repeat bg-center">
+        <About/>
+        <OurServices/>
+        <div className="bg-center">
           <Testimonial/>
         </div>
-         
         <div className="mx-40">
           <Blog/>
         </div>
+        <div className=''>
         <ContactUs />
+        </div>
+        <div style={{height:"600px"}}>
+        <AdvizAnimation />
+        </div>
         <Footer/>
       </div>
     </BrowserRouter>

@@ -1,5 +1,38 @@
+import { useState, useEffect } from 'react';
 import { Users, Target, Award, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+
+const AnimatedCounter = ({ value, duration = 2 }) => {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let startValue = 0;
+    const endValue = parseInt(value);
+    const incrementTime = (duration * 1000) / endValue;
+    
+    const counter = setInterval(() => {
+      startValue += 1;
+      setCount(startValue);
+      
+      if (startValue === endValue) {
+        clearInterval(counter);
+      }
+    }, incrementTime);
+
+    return () => clearInterval(counter);
+  }, [value, duration, isVisible]);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  return (
+    <span>{count}{value.toString().includes('+') ? '+' : '%'}</span>
+  );
+};
 
 const AboutCompany = () => {
   const containerVariants = {
@@ -54,13 +87,19 @@ const AboutCompany = () => {
     })
   };
 
+  const stats = [
+    { number: "10+", label: "Years Experience" },
+    { number: "200+", label: "Projects Completed" },
+    { number: "50+", label: "Team Experts" },
+    { number: "99", label: "Client Satisfaction" },
+  ];
+
   return (
     <motion.section 
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className="w-full py-20 bg-gradient-to-b from-white mt-6 to-[#ffcd9e] shadow-xl"
-      style={{borderBottomLeftRadius:"100px",borderBottomRightRadius:"100px"}}
+      className="w-full bg-gradient-to-b py-10 from-white to-[#ffcd9e] shadow-xl"
     >
       <div className="container mx-auto px-4">
         {/* Header Section */}
@@ -87,12 +126,7 @@ const AboutCompany = () => {
 
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-20">
-          {[
-            { number: "10+", label: "Years Experience" },
-            { number: "200+", label: "Projects Completed" },
-            { number: "50+", label: "Team Experts" },
-            { number: "99%", label: "Client Satisfaction" },
-          ].map((stat, index) => (
+          {stats.map((stat, index) => (
             <motion.div
               key={index}
               custom={index}
@@ -104,12 +138,12 @@ const AboutCompany = () => {
               className="text-center"
             >
               <motion.h3 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 + index * 0.1 }}
                 className="text-4xl font-bold text-[#A71154] mb-2"
               >
-                {stat.number}
+                <AnimatedCounter 
+                  value={stat.number.replace('+', '')} 
+                  duration={2}
+                />
               </motion.h3>
               <p className="text-[#A71154]">{stat.label}</p>
             </motion.div>
@@ -156,17 +190,11 @@ const AboutCompany = () => {
               </motion.div>
               <motion.h3 
                 className="text-xl font-bold mb-3"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
               >
                 {value.title}
               </motion.h3>
               <motion.p 
                 className="text-[#A71154]"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
               >
                 {value.description}
               </motion.p>
