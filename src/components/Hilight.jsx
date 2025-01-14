@@ -9,7 +9,7 @@ import {
   CheckCircle 
 } from 'lucide-react';
 
-const Hilight = () => {
+const Highlight = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const highlights = [
@@ -23,7 +23,7 @@ const Hilight = () => {
         { number: "95%", label: "Success Rate" },
         { number: "10+", label: "Years Experience" }
       ],
-      bgColor: "from-orange-300 to-orange-600"
+      bgColor: "from-orange-300/50 to-orange-600/50"
     },
     {
       icon: <Users className="w-14 h-14" />,
@@ -35,7 +35,7 @@ const Hilight = () => {
         { number: "15+", label: "Countries" },
         { number: "24/7", label: "Support" }
       ],
-      bgColor: "from-purple-500 to-purple-600"
+      bgColor: "from-purple-500/50 to-purple-600/50"
     },
     {
       icon: <TrendingUp className="w-14 h-14" />,
@@ -47,7 +47,7 @@ const Hilight = () => {
         { number: "30M+", label: "Revenue" },
         { number: "40%", label: "YoY Growth" }
       ],
-      bgColor: "from-green-500 to-green-600"
+      bgColor: "from-green-500/50 to-green-600/50"
     },
     {
       icon: <Globe className="w-14 h-14" />,
@@ -59,7 +59,7 @@ const Hilight = () => {
         { number: "100+", label: "Partners" },
         { number: "5", label: "Global Offices" }
       ],
-      bgColor: "from-orange-500 to-orange-600"
+      bgColor: "from-orange-500/50 to-orange-600/50"
     }
   ];
 
@@ -68,10 +68,15 @@ const Hilight = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="w-full py-20  bg-gradient-to-b from-orange-300 to-white "
+      className="w-full py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-black relative overflow-hidden"
       style={{borderTopLeftRadius:"50px", borderTopRightRadius:"50px"}}
     >
-      <div className="container mx-auto px-4">
+      {/* Animated background elements */}
+      <div className="absolute top-0 mt-32 left-0 ml-96 w-96 h-96 bg-blue-800 rounded-full filter blur-md opacity-20 animate-blob"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 mt-96 bg-orange-500 rounded-full filter blur-md opacity-10 animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-900 rounded-full filter blur-md opacity-60 animate-blob animation-delay-2000"></div>
+
+      <div className="container mx-auto px-4 relative">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -79,8 +84,8 @@ const Hilight = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-3xl mx-auto text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">Company Hilight</h2>
-          <p className="text-lg text-gray-600">
+          <h2 className="text-5xl font-bold mb-4 text-orange-500 drop-shadow-lg">Company Highlight</h2>
+          <p className="text-lg text-white/90">
             Discover what makes us stand out in the industry
           </p>
         </motion.div>
@@ -98,11 +103,16 @@ const Hilight = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab(index)}
-              className={`px-6 py-3 rounded-full font-medium transition-all
+              className={`px-6 py-2 rounded-full transition-all backdrop-blur-lg
                 ${activeTab === index 
-                  ? ' bg-[#0B0C1D] text-white shadow-xl' 
-                  : 'bg-white text-gray-600 hover:bg-gray-50'
-                }`}
+                  ? 'bg-white/20 text-white shadow-lg border border-white/30' 
+                  : 'bg-white/10 text-white/90 border border-white/20 hover:bg-white/15'}`}
+              style={{
+                boxShadow: activeTab === index
+                  ? '0px 0px 20px 5px rgba(255, 165, 0, 0.8)'
+                  : 'none',
+                transition: 'box-shadow 0.3s ease-in-out',
+              }}
             >
               {highlight.title}
             </motion.button>
@@ -119,12 +129,12 @@ const Hilight = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
               transition={{ duration: 0.5 }}
-              className="space-y-8"
+              className="space-y-8 backdrop-blur-lg bg-white/10 p-8 rounded-2xl border border-white/20"
             >
               <motion.div 
                 whileHover={{ scale: 1.1, rotate: 360 }}
                 transition={{ duration: 0.6 }}
-                className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br ${highlights[activeTab].bgColor} text-white`}
+                className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br ${highlights[activeTab].bgColor} backdrop-blur-lg text-white border border-white/20`}
               >
                 {highlights[activeTab].icon}
               </motion.div>
@@ -134,7 +144,7 @@ const Hilight = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
-                  className="text-3xl font-bold mb-2"
+                  className="text-3xl font-bold mb-2 text-white"
                 >
                   {highlights[activeTab].title}
                 </motion.h3>
@@ -142,7 +152,7 @@ const Hilight = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="text-xl text-[#EC9B4F] mb-4"
+                  className="text-xl text-orange-300 mb-4"
                 >
                   {highlights[activeTab].subTitle}
                 </motion.p>
@@ -150,7 +160,7 @@ const Hilight = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
-                  className="text-gray-600 text-lg leading-relaxed mb-6"
+                  className="text-white/80 text-lg leading-relaxed mb-6"
                 >
                   {highlights[activeTab].description}
                 </motion.p>
@@ -169,12 +179,12 @@ const Hilight = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 + index * 0.1 }}
                     whileHover={{ scale: 1.05 }}
-                    className="text-center"
+                    className="text-center backdrop-blur-lg bg-white/5 p-4 rounded-xl border border-white/10"
                   >
-                    <div className="text-2xl font-bold text-gray-900 mb-1">
+                    <div className="text-2xl font-bold text-white mb-1">
                       {stat.number}
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-white/70">
                       {stat.label}
                     </div>
                   </motion.div>
@@ -184,7 +194,7 @@ const Hilight = () => {
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-[#1A1C43] text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center gap-2"
+                className="backdrop-blur-lg bg-white/10 text-white px-8 py-4 rounded-lg hover:bg-white/20 transition-colors inline-flex items-center gap-2 border border-white/20"
               >
                 Learn More
                 <ArrowRight className="w-5 h-5" />
@@ -197,9 +207,9 @@ const Hilight = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-white p-8 rounded-2xl shadow-xl"
+            className="backdrop-blur-lg bg-white/10 p-8 rounded-2xl border border-white/20"
           >
-            <h4 className="text-xl font-semibold mb-6">Key Achievements</h4>
+            <h4 className="text-xl font-semibold mb-6 text-white">Key Achievements</h4>
             <div className="space-y-4">
               {[
                 "Industry-leading customer satisfaction rates",
@@ -215,10 +225,10 @@ const Hilight = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6 + index * 0.1 }}
                   whileHover={{ x: 10 }}
-                  className="flex items-center gap-3"
+                  className="flex items-center gap-3 backdrop-blur-lg bg-white/5 p-3 rounded-xl border border-white/10"
                 >
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-gray-700">{feature}</span>
+                  <CheckCircle className="w-5 h-5 text-orange-300 flex-shrink-0" />
+                  <span className="text-white/80">{feature}</span>
                 </motion.div>
               ))}
             </div>
@@ -229,4 +239,4 @@ const Hilight = () => {
   );
 };
 
-export default Hilight;
+export default Highlight;

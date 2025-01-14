@@ -6,30 +6,61 @@ import { easing } from 'maath'
 
 export default function OurTeam() {
   return (
-    <Canvas camera={{ position: [0, 0, 20], fov: 15 }}>
-      <ScrollControls damping={0.2} pages={3} distance={0.5}>
-        <Lens>
-          <Scroll>
-            <Typography />
-            <Images />
-          </Scroll>
-          <Scroll html>
-            <div style={{ transform: 'translate3d(65vw, 192vh, 0)' }}>
-              PMNDRS Pendant lamp
-              <br />
-              bronze, 38 cm
-              <br />
-              CHF 59.95
-              <br />
-            </div>
-          </Scroll>
-          {/** This is a helper that pre-emptively makes threejs aware of all geometries, textures etc
-               By default threejs will only process objects if they are "seen" by the camera leading 
-               to jank as you scroll down. With <Preload> that's solved.  */}
-          <Preload />
-        </Lens>
-      </ScrollControls>
-    </Canvas>
+    <div className="relative w-full h-full bg-gradient-to-br from-slate-800 via-slate-800 to-black overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+
+      {/* Header */}
+      <div className="absolute top-0 left-0 w-full z-10 pt-8">
+        <div className="container mx-auto px-4">
+          <h1 className="text-5xl font-bold text-orange-500 text-center mb-4 drop-shadow-lg">
+            Meet Our Team
+          </h1>
+          <p className="text-xl text-white/80 text-center max-w-2xl mx-auto">
+            Discover the talented individuals behind our success
+          </p>
+        </div>
+      </div>
+
+      {/* 3D Canvas */}
+      <Canvas camera={{ position: [0, 0, 20], fov: 15 }} className="w-full h-full">
+        <ScrollControls damping={0.2} pages={3} distance={0.5}>
+          <Lens>
+            <Scroll>
+              <Typography />
+              <Images />
+            </Scroll>
+            <Scroll html>
+              <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-6 text-white/90" 
+                   style={{ transform: 'translate3d(65vw, 192vh, 0)' }}>
+                <h3 className="text-2xl font-bold mb-2">Innovative Solutions</h3>
+                <p className="text-white/80 mb-4">Creating cutting-edge digital experiences</p>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                    Premium Quality
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                    Expert Team
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+                    Global Reach
+                  </li>
+                </ul>
+              </div>
+            </Scroll>
+            <Preload />
+          </Lens>
+        </ScrollControls>
+      </Canvas>
+
+      {/* Overlay gradient */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
+    </div>
   )
 }
 
@@ -40,10 +71,6 @@ function Lens({ children, damping = 0.15, ...props }) {
   const viewport = useThree((state) => state.viewport)
   const [scene] = useState(() => new THREE.Scene())
   useFrame((state, delta) => {
-    // Tie lens to the pointer
-    // getCurrentViewport gives us the width & height that would fill the screen in threejs units
-    // By giving it a target coordinate we can offset these bounds, for instance width/height for a plane that
-    // sits 15 units from 0/0/0 towards the camera (which is where the lens is)
     const viewport = state.viewport.getCurrentViewport(state.camera, [0, 0, 15])
     easing.damp3(
       ref.current.position,
@@ -51,12 +78,8 @@ function Lens({ children, damping = 0.15, ...props }) {
       damping,
       delta
     )
-    // This is entirely optional but spares us one extra render of the scene
-    // The createPortal below will mount the children of <Lens> into the new THREE.Scene above
-    // The following code will render that scene into a buffer, whose texture will then be fed into
-    // a plane spanning the full screen and the lens transmission material
     state.gl.setRenderTarget(buffer)
-    state.gl.setClearColor('#d8d7d7')
+    state.gl.setClearColor('#1e1b4b') // Darker indigo for better contrast
     state.gl.render(scene, state.camera)
     state.gl.setRenderTarget(null)
   })
@@ -68,7 +91,16 @@ function Lens({ children, damping = 0.15, ...props }) {
         <meshBasicMaterial map={buffer.texture} />
       </mesh>
       <mesh scale={0.25} ref={ref} rotation-x={Math.PI / 2} geometry={nodes.Cylinder.geometry} {...props}>
-        <MeshTransmissionMaterial buffer={buffer.texture} ior={1.2} thickness={1.5} anisotropy={0.1} chromaticAberration={0.04} />
+        <MeshTransmissionMaterial 
+          buffer={buffer.texture} 
+          ior={1.2} 
+          thickness={1.5} 
+          anisotropy={0.1} 
+          chromaticAberration={0.04}
+          distortion={0.5}
+          distortionScale={0.5}
+          temporalDistortion={0.1}
+        />
       </mesh>
     </>
   )
@@ -102,13 +134,25 @@ function Images() {
 
 function Typography() {
   const state = useThree()
-  const { width, height } = state.viewport.getCurrentViewport(state.cameta, [0, 0, 12])
-  const shared = { font: '/Inter-Regular.woff', letterSpacing: -0.1, color: 'black' }
+  const { width, height } = state.viewport.getCurrentViewport(state.camera, [0, 0, 12])
+  const shared = { 
+    font: '/Inter-Regular.woff', 
+    letterSpacing: -0.1, 
+    color: '#f472b6', // Pink color for text
+    fontSize: 2,
+    'material-toneMapped': false
+  }
   return (
     <>
-      <Text children="to" anchorX="left" position={[-width / 2.5, -height / 10, 12]} {...shared} />
-      <Text children="be" anchorX="right" position={[width / 2.5, -height * 2, 12]} {...shared} />
-      <Text children="home" position={[0, -height * 4.624, 12]} {...shared} />
+      <Text children="Bisnis" anchorX="left" position={[-width / 2.5, -height / 10, 12]} {...shared}>
+        <meshStandardMaterial color="#f472b6" emissive="#f472b6" emissiveIntensity={0.5} />
+      </Text>
+      <Text children="solution" anchorX="right" position={[width / 2.5, -height * 2, 12]} {...shared}>
+        <meshStandardMaterial color="#f472b6" emissive="#f472b6" emissiveIntensity={0.5} />
+      </Text>
+      <Text children="Adviz" position={[0, -height * 4.624, 12]} {...shared}>
+        <meshStandardMaterial color="#f472b6" emissive="#f472b6" emissiveIntensity={0.5} />
+      </Text>
     </>
   )
 }

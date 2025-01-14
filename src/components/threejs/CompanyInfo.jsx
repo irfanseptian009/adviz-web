@@ -27,16 +27,16 @@ const CompanyInfo = () => {
         animate="visible"
         transition={{ duration: 1 }}
       >
-        PT ADVIZ BISNIS SOLUSI
+        Masih belum kepikiran untuk konten yang ini
       </motion.h1>
       <motion.p
-        className="text-lg sm:text-xl md:text-2xl mb-6 max-w-2xl"
+        className="text-lg sm:text-xl md:text-2xl mb-6 text-center max-w-2xl"
         variants={subtitleVariants}
         initial="hidden"
         animate="visible"
         transition={{ duration: 1, delay: 0.5 }}
       >
-        Kami menyediakan solusi terbaik untuk kebutuhan bisnis Anda dengan teknologi terkini.
+        lorem ipsum dolor sit amet, consectetur
       </motion.p>
       <motion.button
         className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold rounded-md shadow-lg transition duration-300"

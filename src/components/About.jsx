@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Users, Target, Award, ArrowRight } from "lucide-react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 
 const AnimatedCounter = ({ value, duration = 2 }) => {
   const [count, setCount] = useState(0);
@@ -34,7 +34,14 @@ const AnimatedCounter = ({ value, duration = 2 }) => {
   );
 };
 
-const AboutCompany = () => {
+import PropTypes from 'prop-types';
+
+AnimatedCounter.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  duration: PropTypes.number
+};
+
+const AboutConsultant = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -66,7 +73,7 @@ const AboutCompany = () => {
       }
     },
     hover: {
-      scale: 1.05,
+      scale: 1.02,
       transition: {
         duration: 0.2
       }
@@ -88,39 +95,58 @@ const AboutCompany = () => {
   };
 
   const stats = [
-    { number: "10+", label: "Years Experience" },
-    { number: "200+", label: "Projects Completed" },
-    { number: "50+", label: "Team Experts" },
-    { number: "99", label: "Client Satisfaction" },
+    { number: "15+", label: "Years Experience" },
+    { number: "500+", label: "Clients Served" },
+    { number: "30+", label: "Industry Experts" },
+    { number: "98", label: "Success Rate" },
   ];
 
   return (
     <motion.section 
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="w-full bg-gradient-to-b py-10 from-white to-[#ffcd9e] shadow-xl"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={containerVariants}
+      className="w-full min-h-screen bg-gradient-to-b from-slate-900 via-black to-slate-800 py-20 relative overflow-hidden"
     >
-      <div className="container mx-auto px-4">
+      {/* Decorative Circles */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.7 }}
+        transition={{ duration: 1 }}
+        className="absolute top-0 left-0 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl animate-blob"
+      ></motion.div>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.7 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        className="absolute top-0 right-0 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"
+      ></motion.div>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.7 }}
+        transition={{ duration: 1, delay: 0.6 }}
+        className="absolute -bottom-8 left-20 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"
+      ></motion.div>
+
+      <div className="container mx-auto px-4 relative">
         {/* Header Section */}
         <motion.div 
           variants={containerVariants}
-          initial="hidden"
-          animate="visible"
           className="max-w-3xl mx-auto text-center mb-16"
         >
           <motion.h2 
             variants={itemVariants}
-            className="text-4xl font-bold text-gray-900 mb-4"
+            className="text-5xl font-bold text-orange-500 mb-4 drop-shadow-lg"
           >
-            Transforming Ideas Into Digital Reality
+            Empowering Business Excellence
           </motion.h2>
           <motion.p 
             variants={itemVariants}
-            className="text-lg text-[#A71154]"
+            className="text-lg text-white/90"
           >
-            With over a decade of excellence, we&apos;ve been at the forefront of digital innovation, 
-            helping businesses achieve their technological aspirations.
+            With over a years of consulting excellence, we&apos;ve guided businesses through 
+            transformative growth, strategic innovation, and sustainable success.
           </motion.p>
         </motion.div>
 
@@ -131,21 +157,19 @@ const AboutCompany = () => {
               key={index}
               custom={index}
               variants={statsVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
               whileHover={{ scale: 1.1 }}
-              className="text-center"
+              className="backdrop-blur-lg bg-white/10 rounded-2xl p-6 text-center border border-white/20 shadow-xl"
+              style={{ boxShadow: "0px 20px 60px -20px rgb(59, 130, 246)" }}
             >
               <motion.h3 
-                className="text-4xl font-bold text-[#A71154] mb-2"
+                className="text-4xl font-bold text-white mb-2"
               >
                 <AnimatedCounter 
                   value={stat.number.replace('+', '')} 
                   duration={2}
                 />
               </motion.h3>
-              <p className="text-[#A71154]">{stat.label}</p>
+              <p className="text-white/80">{stat.label}</p>
             </motion.div>
           ))}
         </div>
@@ -153,33 +177,30 @@ const AboutCompany = () => {
         {/* Company Values */}
         <motion.div 
           variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20"
         >
           {[
             {
-              icon: <Target className="w-12 h-12 text-[#A71154]" />,
-              title: "Our Mission",
-              description: "To deliver innovative digital solutions that empower businesses to thrive in the modern era."
+              icon: <Target className="w-12 h-12 text-white" />,
+              title: "Strategic Approach",
+              description: "We deliver tailored consulting solutions that drive measurable business growth and operational excellence."
             },
             {
-              icon: <Award className="w-12 h-12 text-[#A71154]" />,
-              title: "Our Vision",
-              description: "To become the global leader in digital transformation, setting new standards of excellence and innovation."
+              icon: <Award className="w-12 h-12 text-white" />,
+              title: "Expert Guidance",
+              description: "Our team of industry veterans provides deep insights and practical strategies for sustainable success."
             },
             {
-              icon: <Users className="w-12 h-12 text-[#A71154]" />,
-              title: "Our Values",
-              description: "Integrity, innovation, collaboration, and commitment to delivering exceptional results for our clients."
+              icon: <Users className="w-12 h-12 text-white" />,
+              title: "Client Partnership",
+              description: "We build lasting relationships through transparent communication and commitment to your business goals."
             }
           ].map((value, index) => (
             <motion.div
               key={index}
               variants={cardVariants}
               whileHover="hover"
-              className="bg-orange-100 p-8 rounded-xl shadow-xl transition-all"
+              className="backdrop-blur-lg bg-white/10 p-8 rounded-2xl border border-white/20 shadow-xl hover:shadow-2xl transition-all"
             >
               <motion.div 
                 className="mb-4"
@@ -189,12 +210,12 @@ const AboutCompany = () => {
                 {value.icon}
               </motion.div>
               <motion.h3 
-                className="text-xl font-bold mb-3"
+                className="text-xl font-bold mb-3 text-white"
               >
                 {value.title}
               </motion.h3>
               <motion.p 
-                className="text-[#A71154]"
+                className="text-white/80"
               >
                 {value.description}
               </motion.p>
@@ -205,17 +226,14 @@ const AboutCompany = () => {
         {/* CTA Section */}
         <motion.div 
           className="text-center mt-20"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          variants={itemVariants}
         >
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-[#1A1C43] text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-700 transition-colors inline-flex items-center gap-2"
+            className="backdrop-blur-lg bg-white/10 text-white px-8 py-4 rounded-full font-semibold hover:bg-white/20 transition-colors inline-flex items-center gap-2 border border-white/20"
           >
-            Learn More About Us
+            Schedule a Consultation
             <motion.div
               animate={{ x: [0, 5, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
@@ -229,4 +247,4 @@ const AboutCompany = () => {
   );
 };
 
-export default AboutCompany;
+export default AboutConsultant;

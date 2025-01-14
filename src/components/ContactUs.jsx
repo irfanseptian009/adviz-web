@@ -77,13 +77,13 @@ const ContactUs = () => {
   ];
 
   return (
-    <div className=' min-h-screen p-8'>
+    <div className=' min-h-screen mt-10 p-8'>
       <motion.div 
         initial="hidden"
         animate="visible"
         variants={containerVariants}
         className="w-full max-w-7xl mx-auto  backdrop-blur-md  rounded-3xl p-8"
-        style={{   boxShadow: "45px 35px 220px -45px blue", }}
+        style={{   boxShadow: "0px 20px 60px -20px blue", }}
       >
         {/* Company Profile Section */}
         <motion.section 
@@ -152,7 +152,7 @@ const ContactUs = () => {
                       </motion.div>
                       <div>
                         <h3 className="font-semibold mb-1 text-white">{item.title}</h3>
-                        <p className="text-white-300">
+                        <p className="text-gray-500">
                           {item.content}
                         </p>
                       </div>

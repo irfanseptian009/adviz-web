@@ -8,7 +8,6 @@ const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
-  // const logo = "../assets/AdvizLogo.png"
 
   const navLinks = [
     {
@@ -59,7 +58,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Animation variants
   const navVariants = {
     hidden: {
       y: -50,
@@ -133,14 +131,13 @@ const Navbar = () => {
       initial="hidden"
       animate="visible"
       variants={navVariants}
-      className={`w-full flex items-center py-7 fixed top-0 z-20 px-5 lg:px-16 ${
+      className={`w-full flex items-center py-3 fixed top-0 z-20 px-5 lg:px-16 ${
         scrolled
-        ? " opacity-30 backdrop-blur-[8px] border-2 border-white/20"
-        : " opacity-30 backdrop-blur-[8px]  text-black"
+          ? "opacity-30 backdrop-blur-[8px] border-2 border-white/20"
+          : "opacity-30 backdrop-blur-[8px] text-black"
       } transition-colors duration-300`}
     >
       <div className="w-full flex justify-between items-center max-w-full mx-auto">
-        {/* Logo */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -160,26 +157,28 @@ const Navbar = () => {
           </motion.p>
         </motion.button>
 
-        {/* Desktop Menu */}
-        <ul className="hidden sm:flex md:flex flex-row gap-10">
+        <ul className="hidden sm:flex md:flex flex-row gap-10 text-white">
           {navLinks.map((nav, index) => (
             <motion.li
               key={nav.id}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="relative"
+              className="relative group"
               onMouseEnter={() => setHoveredItem(nav.id)}
               onMouseLeave={() => setHoveredItem(null)}
             >
               <motion.div
                 whileHover={{ y: -2 }}
                 className={`${
-                  active === nav.title ? "text-[#EC9B4F]" : "text-bg-[#1A1C43] "
-                } hover:text-[#EC9B4F] text-lg font-medium cursor-pointer flex items-center gap-1 transition-colors duration-200`}
+                  active === nav.title ? "text-[#EC9B4F]" : "text-bg-[#1A1C43]"
+                } hover:text-[#EC9B4F] text-lg font-medium cursor-pointer flex items-center gap-1 transition-colors duration-200 relative`}
                 onClick={() => setActive(nav.title)}
               >
-                <a href={`#${nav.id}`}>{nav.title}</a>
+                <a href={`#${nav.id}`} className="relative">
+                  {nav.title}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EC9B4F] transition-all duration-300 group-hover:w-full"></span>
+                </a>
                 {nav.dropdownItems && (
                   <motion.div
                     animate={hoveredItem === nav.id ? { rotate: 180 } : { rotate: 0 }}
@@ -190,7 +189,6 @@ const Navbar = () => {
                 )}
               </motion.div>
 
-              {/* Dropdown Menu */}
               <AnimatePresence>
                 {nav.dropdownItems && hoveredItem === nav.id && (
                   <motion.div
@@ -198,7 +196,13 @@ const Navbar = () => {
                     animate="visible"
                     exit="exit"
                     variants={dropdownVariants}
-                    className="absolute top-full left-0 w-48 bg-white rounded-md shadow-xl py-2 mt-2"
+                    className="absolute top-full left-0 w-48 mt-2 rounded-lg overflow-hidden"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.1)",
+                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                    }}
                   >
                     {nav.dropdownItems.map((item, itemIndex) => (
                       <motion.a
@@ -207,13 +211,14 @@ const Navbar = () => {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: itemIndex * 0.05 }}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EC9B4F] transition-colors duration-200"
+                        className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors duration-200 relative group"
                         onClick={() => {
                           setActive(item.title);
                           setHoveredItem(null);
                         }}
                       >
                         {item.title}
+                      
                       </motion.a>
                     ))}
                   </motion.div>
@@ -223,7 +228,6 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* Mobile Menu */}
         <div className="flex sm:hidden md:hidden flex-1 justify-end items-center">
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -241,7 +245,12 @@ const Navbar = () => {
                 animate="visible"
                 exit="exit"
                 variants={mobileMenuVariants}
-                className="p-6 bg-gradient-to-r from-slate-800/95 to-slate-900/95 backdrop-blur-sm absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl"
+                className="p-6 fixed top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl"
+                style={{
+                  background: "rgba(15, 23, 42, 0.8)",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                }}
               >
                 <ul className="flex flex-col gap-4 items-start">
                   {navLinks.map((nav, index) => (
@@ -250,14 +259,13 @@ const Navbar = () => {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="relative w-full"
+                      className="relative w-full group"
                     >
                       <motion.div
                         whileHover={{ x: 5 }}
                         className={`font-medium cursor-pointer text-base ${
                           active === nav.title ? "text-[#EC9B4F]" : "text-white"
-                        } transition-colors duration-200`}
-                        style={{ backgroundColor: "white" }}
+                        } transition-colors duration-200 relative`}
                         onClick={() => {
                           if (!nav.dropdownItems) {
                             setToggle(!toggle);
@@ -265,7 +273,10 @@ const Navbar = () => {
                           }
                         }}
                       >
-                        <a href={`#${nav.id}`}>{nav.title}</a>
+                        <a href={`#${nav.id}`} className="relative">
+                          {nav.title}
+                          <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EC9B4F] transition-all duration-300 group-hover:w-full"></span>
+                        </a>
                         {nav.dropdownItems && <ChevronDown size={14} className="inline ml-2" />}
                       </motion.div>
                       <AnimatePresence>
@@ -283,17 +294,19 @@ const Navbar = () => {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: itemIndex * 0.05 }}
+                                className="group"
                               >
                                 <motion.a
                                   whileHover={{ x: 5 }}
                                   href={`#${item.id}`}
-                                  className="text-sm text-gray-400 hover:text-[#EC9B4F] block transition-colors duration-200"
+                                  className="text-sm text-gray-400 hover:text-[#EC9B4F] block transition-colors duration-200 relative"
                                   onClick={() => {
                                     setToggle(!toggle);
                                     setActive(item.title);
                                   }}
                                 >
                                   {item.title}
+                                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EC9B4F] transition-all duration-300 group-hover:w-full"></span>
                                 </motion.a>
                               </motion.li>
                             ))}
