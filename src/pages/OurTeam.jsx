@@ -3,36 +3,41 @@ import { useRef, useState } from 'react'
 import { Canvas, createPortal, useFrame, useThree } from '@react-three/fiber'
 import { useFBO, useGLTF, useScroll, Text, Image, Scroll, Preload, ScrollControls, MeshTransmissionMaterial } from '@react-three/drei'
 import { easing } from 'maath'
+import { Footer } from '../components'
+import PropTypes from 'prop-types'
 
 export default function OurTeam() {
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-slate-800 via-slate-800 to-black overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-      <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500/30 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+    <div className="relative w-full h-screen bg-gradient-to-br from-slate-900 via-slate-700 to-black overflow-hidden">
 
-      {/* Header */}
-      <div className="absolute top-0 left-0 w-full z-10 pt-8">
-        <div className="container mx-auto px-4">
-          <h1 className="text-5xl font-bold text-orange-500 text-center mb-4 drop-shadow-lg">
-            Meet Our Team
-          </h1>
-          <p className="text-xl text-white/80 text-center max-w-2xl mx-auto">
-            Discover the talented individuals behind our success
-          </p>
-        </div>
-      </div>
+      {/* Style to hide scrollbars */}
+      <style>{`
+        ::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
 
       {/* 3D Canvas */}
       <Canvas camera={{ position: [0, 0, 20], fov: 15 }} className="w-full h-full">
-        <ScrollControls damping={0.2} pages={3} distance={0.5}>
+        <ScrollControls damping={2} pages={4} distance={0.5}>
           <Lens>
             <Scroll>
               <Typography />
               <Images />
             </Scroll>
             <Scroll html>
+              {/* Header */}
+              <div className="top-0 left-0 w-full z-10 pt-8">
+                <div className="container mt-36 mx-auto px-4">
+                  <h1 className="text-5xl font-bold text-orange-500 text-center mb-4 drop-shadow-lg">
+                    Meet Our Team
+                  </h1>
+                  <p className="text-xl text-white/80 text-center max-w-2xl mx-auto">
+                    Discover the talented individuals behind our success
+                  </p>
+                </div>
+              </div>
+              
               <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl p-6 text-white/90" 
                    style={{ transform: 'translate3d(65vw, 192vh, 0)' }}>
                 <h3 className="text-2xl font-bold mb-2">Innovative Solutions</h3>
@@ -52,6 +57,11 @@ export default function OurTeam() {
                   </li>
                 </ul>
               </div>
+
+              {/* Footer positioned at the bottom */}
+              <div style={{ transform: 'translate3d(0, 250vh, 0)' }} className="w-full">
+                <Footer />
+              </div>
             </Scroll>
             <Preload />
           </Lens>
@@ -61,6 +71,7 @@ export default function OurTeam() {
       {/* Overlay gradient */}
       <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
     </div>
+    
   )
 }
 
@@ -79,7 +90,7 @@ function Lens({ children, damping = 0.15, ...props }) {
       delta
     )
     state.gl.setRenderTarget(buffer)
-    state.gl.setClearColor('#1e1b4b') // Darker indigo for better contrast
+    state.gl.setClearColor('#1e1b4b') 
     state.gl.render(scene, state.camera)
     state.gl.setRenderTarget(null)
   })
@@ -104,6 +115,13 @@ function Lens({ children, damping = 0.15, ...props }) {
       </mesh>
     </>
   )
+}
+
+
+
+Lens.propTypes = {
+  children: PropTypes.node.isRequired,
+  damping: PropTypes.number,
 }
 
 function Images() {
@@ -138,20 +156,26 @@ function Typography() {
   const shared = { 
     font: '/Inter-Regular.woff', 
     letterSpacing: -0.1, 
-    color: '#f472b6', // Pink color for text
+    color: '#f472b6',
     fontSize: 2,
     'material-toneMapped': false
   }
   return (
     <>
-      <Text children="Bisnis" anchorX="left" position={[-width / 2.5, -height / 10, 12]} {...shared}>
-        <meshStandardMaterial color="#f472b6" emissive="#f472b6" emissiveIntensity={0.5} />
+
+      <Text anchorX="left" position={[-width / 2.5, -height / 10, 12]} {...shared}>
+        Bisnis
+        <meshStandardMaterial color="#f47223" emissive="#f47" emissiveIntensity={0.5} />
       </Text>
-      <Text children="solution" anchorX="right" position={[width / 2.5, -height * 2, 12]} {...shared}>
-        <meshStandardMaterial color="#f472b6" emissive="#f472b6" emissiveIntensity={0.5} />
+
+      <Text anchorX="right" position={[width / 2.5, -height * 2, 12]} {...shared}>
+        solution
+        <meshStandardMaterial color="#f472" emissive="#f47" emissiveIntensity={0.5} />
       </Text>
-      <Text children="Adviz" position={[0, -height * 4.624, 12]} {...shared}>
-        <meshStandardMaterial color="#f472b6" emissive="#f472b6" emissiveIntensity={0.5} />
+
+      <Text position={[0, -height * 4.624, 12]} {...shared}>
+        Adviz
+        <meshStandardMaterial color="#f47200" emissive="#f47" emissiveIntensity={0.5} />
       </Text>
     </>
   )

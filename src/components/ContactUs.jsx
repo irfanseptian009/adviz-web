@@ -19,33 +19,12 @@ const ContactUs = () => {
     ],
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        staggerChildren: 0.2
-      }
-    }
-  };
+ 
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 10
-      }
-    }
-  };
 
   const contactItems = [
     {
-      icon: <MapPin className="w-6 h-6 text-blue-600" />,
+      icon: <MapPin className="w-6 h-6 text-orange-600" />,
       title: "Our Location",
       content: (
         <>
@@ -55,21 +34,21 @@ const ContactUs = () => {
       )
     },
     {
-      icon: <Phone className="w-6 h-6 text-blue-600" />,
+      icon: <Phone className="w-6 h-6 text-orange-600" />,
       title: "Phone Number",
       content: "+62 21 1234 5678"
     },
     {
-      icon: <Mail className="w-6 h-6 text-blue-600" />,
+      icon: <Mail className="w-6 h-6 text-orange-600" />,
       title: "Email Address",
       content: "marketing@adviz.id"
     },
     {
-      icon: <Clock className="w-6 h-6 text-blue-600" />,
+      icon: <Clock className="w-6 h-6 text-orange-600" />,
       title: "Business Hours",
       content: (
         <>
-          Monday - Friday: 9:00 AM - 5:00 PM<br />
+          Monday - Friday: 8:30 AM - 5:30 PM<br />
           Saturday - Sunday: Closed
         </>
       )
@@ -78,69 +57,54 @@ const ContactUs = () => {
 
   return (
     <div className=' min-h-screen mt-10 p-8'>
-      <motion.div 
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
+      <div 
         className="w-full max-w-7xl mx-auto  backdrop-blur-md  rounded-3xl p-8"
         style={{   boxShadow: "0px 20px 60px -20px blue", }}
       >
         {/* Company Profile Section */}
-        <motion.section 
-          variants={itemVariants}
+        <section 
           className="relative text-white py-12"
         >
           <div className="relative container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <motion.h1 
+              <h1 
                 className="text-4xl md:text-5xl font-bold mb-3"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.5 }}
               >
                 Contact Us
-              </motion.h1>
-              <motion.p 
+              </h1>
+              <p 
                 className="text-xl"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
               >
                 Building Tomorrow&apos;s Solutions Today
-              </motion.p>
+              </p>
             </div>
           </div>
-        </motion.section>
+        </section>
 
         {/* Contact Section */}
         <section className="py-16 px-4">
           <div className="container mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {/* Contact Information */}
-              <motion.div 
-                variants={containerVariants}
+              <div 
+            
                 className="space-y-8"
               >
-                <motion.div variants={itemVariants}>
+                <div >
                   <h2 className="text-3xl font-bold mb-6 text-white">Get in Touch</h2>
                   <p className="text-gray-300 mb-8">
                     We&apos;d love to hear from you. Please fill out the form or contact us using the information below.
                   </p>
-                </motion.div>
+                </div>
 
                 <div className="space-y-6">
                   {contactItems.map((item, index) => (
-                    <motion.div
+                    <div
                       key={index}
-                      variants={itemVariants}
-                      whileHover={{ 
-                        scale: 1.02,
-                        transition: { duration: 0.2 }
-                      }}
                       className="flex items-start space-x-4"
                     >
                       <motion.div 
-                        className="flex-shrink-0 w-12 h-12 rounded-full bg-orange-100/50 backdrop-blur-sm flex items-center justify-center border border-blue-200/30"
+                        className="flex-shrink-0 w-12 h-12 rounded-full bg-slate-800 backdrop-blur-sm flex items-center justify-center border border-blue-200/30"
                         whileHover={{ 
                           rotate: 360,
                           backgroundColor: "white",
@@ -156,22 +120,14 @@ const ContactUs = () => {
                           {item.content}
                         </p>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
-              </motion.div>
+              </div>
 
               {/* Map Section */}
-              <motion.div 
-                variants={itemVariants}
-                initial="hidden"
-                animate="visible"
-                className="h-96 w-full rounded-lg overflow-hidden shadow-md border border-white/10 backdrop-blur-sm"
-                whileHover={{ 
-                  scale: 1.02,
-                  transition: { duration: 0.2 }
-                }}
-              >
+              <div 
+              className='p-2 m-5 rounded-lg border-4 border-slate-800'>
                 <Map
                   mapboxAccessToken={token}
                   initialViewState={{
@@ -180,7 +136,7 @@ const ContactUs = () => {
                     zoom: mapConfig.zoom,
                   }}
                   style={{ width: '100%', height: '100%' }}
-                  mapStyle="mapbox://styles/mapbox/streets-v12"
+                  mapStyle="mapbox://styles/mapbox/navigation-night-v1"
                 >
                   {mapConfig.markers.map((marker, index) => (
                     <Marker
@@ -189,30 +145,19 @@ const ContactUs = () => {
                       latitude={marker.latitude}
                       anchor="bottom"
                     >
-                      <motion.div 
+                      <div 
                         className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 260,
-                          damping: 20
-                        }}
-                        whileHover={{ 
-                          scale: 1.2,
-                          transition: { duration: 0.2 }
-                        }}
                       >
                         <MapPin className="w-4 h-4 text-white" />
-                      </motion.div>
+                      </div>
                     </Marker>
                   ))}
                 </Map>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
-      </motion.div>
+      </div>
     </div>
   );
 };

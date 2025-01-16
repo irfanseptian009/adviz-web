@@ -1,42 +1,64 @@
 
+import './App.css';
+import {
+  Navbar,
+  Herro,
+  Hilight,
+  About,
+  OurServices,
+  Testimonial,
+  Blog,
+  ContactUs,
+  Footer,
+  AdvizAnimation,
+ 
+} from './components';
+import { BrowserRouter as Router, Routes, Route } from 'react-router';
+import { CareerPage, ConsultantInquiry, FeedBack, OurTeam, Projects, Support } from './pages';
 
-import { BrowserRouter } from 'react-router'
-import './App.css'
-import {Navbar,Herro, Hilight, About, OurServices, Testimonial, Blog, ContactUs, Footer, AdvizAnimation, OurTeam} from './components'
-import 'normalize.css';
-
+function Home() {
+  return (
+    <div>
+      {/* <Herro /> */}
+      <div style={{ height: "600px" }}>
+        <AdvizAnimation />
+      </div>
+      <Hilight />
+      <About />
+      <OurServices />
+      <div className="bg-center">
+        <Testimonial />
+      </div>
+      <div className="mx-40">
+        <Blog />
+      </div>
+      <div>
+        <ContactUs />
+      </div>
+     
+      <Footer />
+    </div>
+  );
+}
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <div className="">
-        <div className="">
-          <Navbar />
-          <Herro />
-        </div> 
-    
-        <Hilight/>
-        <div className='h-screen'>
-          <OurTeam/>
-        </div>
-        <About/>
-        <OurServices/>
-        <div className="bg-center">
-          <Testimonial/>
-        </div>
-        <div className="mx-40">
-          <Blog/>
-        </div>
-        <div className=''>
-        <ContactUs />
-        </div>
-        <div style={{height:"600px"}}>
-        <AdvizAnimation />
-        </div>
-        <Footer/>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/career/current-openings" element={<CareerPage/>} />
+          <Route path="/ourteam" element={<OurTeam/>} />
+          <Route path="/support" element={<Support/>} />
+          <Route path="/sales" element={<ConsultantInquiry/>}/>
+          <Route path="/feedback" element={<FeedBack/>} />
+          <Route path="/projects" element={<Projects/>} />
+        </Routes>
+      
       </div>
-    </BrowserRouter>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;

@@ -203,10 +203,8 @@ const Highlight = () => {
           </AnimatePresence>
 
           {/* Right Content - Features */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+          <div 
+         
             className="backdrop-blur-lg bg-white/10 p-8 rounded-2xl border border-white/20"
           >
             <h4 className="text-xl font-semibold mb-6 text-white">Key Achievements</h4>
@@ -232,7 +230,7 @@ const Highlight = () => {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </motion.section>

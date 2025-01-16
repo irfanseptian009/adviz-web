@@ -8,7 +8,7 @@ import Blog from "./Blog";
 import ContactUs from "./ContactUs";
 import Footer from "./Footer";
 import AdvizAnimation from "./AdvizAnimation";
-import OurTeam from "./OurTeam";
 
 
-export { Navbar, Herro, Hilight, About,  OurServices, Testimonial, Blog, ContactUs, Footer , AdvizAnimation, OurTeam };   
+
+export { Navbar, Herro, Hilight, About,  OurServices, Testimonial, Blog, ContactUs, Footer , AdvizAnimation, };   

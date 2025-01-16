@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import  { Suspense, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Reflector, Text, useTexture, useGLTF } from '@react-three/drei'
+import { Reflector, Text, useTexture } from '@react-three/drei'
 
 export default function App() {
   return (
@@ -32,8 +32,8 @@ function VideoText(props) {
   const [video] = useState(() => Object.assign(document.createElement('video'), { src: '/drei.mp4', crossOrigin: 'Anonymous', loop: true, muted: true }))
   useEffect(() => void video.play(), [video])
   return (
-    <Text font="/Inter-Bold.woff" fontSize={3} letterSpacing={-0.06} {...props}>
-      Adviz
+    <Text font="/Inter-Bold.woff" fontSize={2} letterSpacing={-0.06} {...props}>
+      contoh
       <meshBasicMaterial toneMapped={true}>
         <videoTexture attach="map" args={[video]} encoding={THREE.sRGBEncoding} />
       </meshBasicMaterial>
@@ -57,4 +57,3 @@ function Intro() {
     state.camera.lookAt(0, 0, 0)
   })
 }
-

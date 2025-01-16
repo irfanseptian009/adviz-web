@@ -2,48 +2,66 @@ import { useEffect, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/AdvizFull.png";
+import { NavLink} from "react-router"; 
 
 const Navbar = () => {
-  const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+
+
+ 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setScrolled(scrollTop > 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
+
 
   const navLinks = [
     {
       id: "about",
       title: "About Us",
+      // path: "/about",
       dropdownItems: [
-        { id: "team", title: "Our Team" },
-        { id: "vision", title: "Our Vision" },
-        { id: "mission", title: "Our Mission" },
+        { id: "team", title: "Our Team", path: "/ourteam" },
+        { id: "vision", title: "Our Vision", path: "vision" },
+        { id: "mission", title: "Our Mission", path: "mission" },
       ],
     },
     {
       id: "work",
       title: "Work",
+      // path: "/work",
       dropdownItems: [
-        { id: "projects", title: "Projects" },
-        { id: "clients", title: "Clients" },
-        { id: "case-studies", title: "Case Studies" },
+        { id: "projects", title: "Projects", path: "/projects" },
+        { id: "clients", title: "Clients", path: "/work/clients" },
+      
       ],
     },
     {
       id: "contact",
       title: "Contact",
+      // path: "/contact",
       dropdownItems: [
-        { id: "support", title: "Support" },
-        { id: "sales", title: "Sales Inquiry" },
-        { id: "feedback", title: "Feedback" },
+        { id: "support", title: "Support", path: "/support" },
+        { id: "sales", title: "Sales Inquiry", path: "/sales" },
+        { id: "feedback", title: "Feedback", path: "/feedback" },
       ],
     },
     {
       id: "career",
       title: "Career",
+      // path: "/career",
       dropdownItems: [
-        { id: "jobs", title: "Current Openings" },
-        { id: "internship", title: "Internship" },
-        { id: "culture", title: "Company Culture" },
+        { id: "current-openings", title: "Current Openings", path: "/career/current-openings" },
+        { id: "culture", title: "Company Culture", path: "/career/culture" },
       ],
     },
   ];
@@ -61,7 +79,7 @@ const Navbar = () => {
   const navVariants = {
     hidden: {
       y: -50,
-      opacity: 35,
+      opacity: 0.35,
     },
     visible: {
       y: 0,
@@ -138,26 +156,32 @@ const Navbar = () => {
       } transition-colors duration-300`}
     >
       <div className="w-full flex justify-between items-center max-w-full mx-auto">
-        <motion.button
+        <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="flex items-center gap-2"
-          onClick={() => {
-            setActive("");
-            window.scrollTo(0, 0);
-          }}
         >
-          <motion.p
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-sm lg:text-xl md:text-base font-extrabold text-[#EC9B4F] cursor-pointer flex"
+          <NavLink
+            to="/"
+            className="flex items-center gap-2"
+            onClick={() => {
+              setToggle(false);
+            }}
           >
-            <img src={logo} alt="Adviz Logo" width={100} height={100} />
-          </motion.p>
-        </motion.button>
+            <motion.img
+              src={logo}
+              alt="Adviz Logo"
+              width={100}
+              height={100}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            />
+          </NavLink>
+        </motion.div>
 
-        <ul className="hidden sm:flex md:flex flex-row gap-10 text-white">
+        {/* Menu Utama */}
+        <ul className="hidden sm:flex md:flex flex-row gap-10 text-slate-300 font-serif">
           {navLinks.map((nav, index) => (
             <motion.li
               key={nav.id}
@@ -167,18 +191,28 @@ const Navbar = () => {
               className="relative group"
               onMouseEnter={() => setHoveredItem(nav.id)}
               onMouseLeave={() => setHoveredItem(null)}
+              
             >
               <motion.div
                 whileHover={{ y: -2 }}
-                className={`${
-                  active === nav.title ? "text-[#EC9B4F]" : "text-bg-[#1A1C43]"
-                } hover:text-[#EC9B4F] text-lg font-medium cursor-pointer flex items-center gap-1 transition-colors duration-200 relative`}
-                onClick={() => setActive(nav.title)}
+                className="text-lg font-medium cursor-pointer flex items-center gap-1 transition-colors duration-200 relative"
               >
-                <a href={`#${nav.id}`} className="relative">
+                <NavLink
+                  to={nav.path}
+                  className={({ isActive }) =>
+                    `relative ${
+                      isActive ? "text-[#ffffff]" : "text-[#f4f4f6]"
+                    } hover:text-[#EC9B4F]`
+                  }
+                  onClick={() => {
+                    setToggle(false);
+                    setHoveredItem(null);
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                  }}
+                >
                   {nav.title}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EC9B4F] transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </NavLink>
                 {nav.dropdownItems && (
                   <motion.div
                     animate={hoveredItem === nav.id ? { rotate: 180 } : { rotate: 0 }}
@@ -205,21 +239,23 @@ const Navbar = () => {
                     }}
                   >
                     {nav.dropdownItems.map((item, itemIndex) => (
-                      <motion.a
+                      <motion.div
                         key={item.id}
-                        href={`#${item.id}`}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: itemIndex * 0.05 }}
-                        className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors duration-200 relative group"
-                        onClick={() => {
-                          setActive(item.title);
-                          setHoveredItem(null);
-                        }}
                       >
-                        {item.title}
-                      
-                      </motion.a>
+                        <NavLink
+                          to={item.path}
+                          className="block px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors duration-200 relative group"
+                          onClick={() => {
+                            setToggle(false);
+                            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll ke atas saat klik
+                          }}
+                        >
+                          {item.title}
+                        </NavLink>
+                      </motion.div>
                     ))}
                   </motion.div>
                 )}
@@ -228,6 +264,7 @@ const Navbar = () => {
           ))}
         </ul>
 
+        {/* Menu Mobile */}
         <div className="flex sm:hidden md:hidden flex-1 justify-end items-center">
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -263,20 +300,20 @@ const Navbar = () => {
                     >
                       <motion.div
                         whileHover={{ x: 5 }}
-                        className={`font-medium cursor-pointer text-base ${
-                          active === nav.title ? "text-[#EC9B4F]" : "text-white"
-                        } transition-colors duration-200 relative`}
-                        onClick={() => {
-                          if (!nav.dropdownItems) {
-                            setToggle(!toggle);
-                            setActive(nav.title);
-                          }
-                        }}
+                        className="font-medium cursor-pointer text-base transition-colors duration-200 relative"
                       >
-                        <a href={`#${nav.id}`} className="relative">
+                        <NavLink
+                          to={nav.path}
+                          className={({ isActive }) =>
+                            `relative w-full block ${
+                              isActive ? "text-[#EC9B4F]" : "text-white"
+                            } hover:text-[#EC9B4F]`
+                          }
+                          onClick={() => setToggle(false)}
+                        >
                           {nav.title}
                           <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EC9B4F] transition-all duration-300 group-hover:w-full"></span>
-                        </a>
+                        </NavLink>
                         {nav.dropdownItems && <ChevronDown size={14} className="inline ml-2" />}
                       </motion.div>
                       <AnimatePresence>
@@ -296,18 +333,14 @@ const Navbar = () => {
                                 transition={{ delay: itemIndex * 0.05 }}
                                 className="group"
                               >
-                                <motion.a
-                                  whileHover={{ x: 5 }}
-                                  href={`#${item.id}`}
+                                <NavLink
+                                  to={item.path}
                                   className="text-sm text-gray-400 hover:text-[#EC9B4F] block transition-colors duration-200 relative"
-                                  onClick={() => {
-                                    setToggle(!toggle);
-                                    setActive(item.title);
-                                  }}
+                                  onClick={() => setToggle(false)}
                                 >
                                   {item.title}
                                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#EC9B4F] transition-all duration-300 group-hover:w-full"></span>
-                                </motion.a>
+                                </NavLink>
                               </motion.li>
                             ))}
                           </motion.ul>
